@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <algorithm>
+#include <cmath>
 
 static const int MAXSIZEOFEXPRESSION = 30;
 template <class T> class Stack {
@@ -94,12 +95,14 @@ class ExpressionsUtlilty {
 
     void reverseExpression(char expression[]) {
         int length = strlen(expression);
-        for (int i = 0; i < length/2; i++) {
-            std::swap(expression[i], expression[length-i-1]);
-        }
+        std::reverse(expression, expression+length);
         for (int i = 0; i < length; i++) {
-            if (expression[i] == '(') expression[i] == ')';
-            else if (expression[i] == ')') expression[i] == '(';
+            if (expression[i] == '(') {
+                expression[i] = ')';
+            }
+            else if (expression[i] == ')') {
+                expression[i] = '(';
+            }
             else continue;
         }
     }
@@ -154,7 +157,55 @@ class ExpressionsUtlilty {
         reverseExpression(infix);
         infixToPostfix(infix, prefix);
         int length = strlen(prefix);
-        std::reverse(prefix, prefix+length-1);
+        std::reverse(prefix, prefix+length);
+    }
+
+    int evaluate(char expression[], bool prefix) {
+        int length = strlen(expression), temp, operand1, operand2;
+        if (prefix) {
+            std::reverse(expression, expression + length);
+        }
+        for (int i = 0; i < length; i++) {
+            if (isalpha(expression[i]) != 0) {
+                std::cout << "Enter Value of " << expression[i] << ": ";
+                std::cin >> temp;
+                stackInt->push(temp);
+            }
+            else {
+                if (!prefix) {
+                    operand1 = stackInt->pop();
+                    operand2 = stackInt->pop();
+                }
+                else {
+                    operand2 = stackInt->pop();
+                    operand1 = stackInt->pop();
+                }
+                switch (expression[i]) {
+                    case '+':
+                        stackInt->push(operand1 + operand2);
+                        break;
+                
+                    case '-':
+                        stackInt->push(operand2 - operand1);
+                        break;
+
+                    case '*':
+                        stackInt->push(operand1 * operand2);
+                        break;
+
+                    case '/':
+                        stackInt->push(operand2 / operand1);
+                        break;
+
+                    case '^':
+                        stackInt->push(std::pow(operand2, operand1));
+                        break;            
+                    default:
+                        break;
+                }
+            }
+        }
+        return stackInt->pop();
     }
 
     ~ExpressionsUtlilty() {
@@ -171,7 +222,9 @@ int main() {
     std::cin >> infix;
     e.infixToPostfix(infix, postfix);
     std::cout << postfix << std::endl;
+    std::cout << e.evaluate(postfix, false) << std::endl;
     e.infixToPrefix(infix, prefix);
     std::cout << prefix << std::endl;
+    std::cout << e.evaluate(prefix, true) << std::endl;
     return 0;
 }
