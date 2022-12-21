@@ -4,6 +4,7 @@
 #include <cmath>
 
 static const int MAXSIZEOFEXPRESSION = 30;
+
 template <class T> class Stack {
 
     class Node {
@@ -18,7 +19,7 @@ template <class T> class Stack {
             }
             Node(T data) {
                 this->data = data;
-                next = nullptr;
+                this->next = nullptr;
             }
     };
 
@@ -159,9 +160,9 @@ class ExpressionsUtlilty {
             std::reverse(prefix, prefix+length);
         }
 
-        int evaluate(char expression[], bool prefix) {
+        int evaluate(char expression[], bool isPrefix) {
             int length = strlen(expression), temp, operand1, operand2;
-            if (prefix) {
+            if (isPrefix == true) {
                 std::reverse(expression, expression + length);
             }
             for (int i = 0; i < length; i++) {
@@ -171,7 +172,7 @@ class ExpressionsUtlilty {
                     stackInt->push(temp);
                 }
                 else {
-                    if (!prefix) {
+                    if (isPrefix == false) {
                         operand1 = stackInt->pop();
                         operand2 = stackInt->pop();
                     }
@@ -218,6 +219,7 @@ int main() {
     char infix[MAXSIZEOFEXPRESSION];
     char postfix[MAXSIZEOFEXPRESSION];
     char prefix[MAXSIZEOFEXPRESSION];
+    std::cout << "Infix: ";
     std::cin >> infix;
     e.infixToPostfix(infix, postfix);
     std::cout << postfix << std::endl;
