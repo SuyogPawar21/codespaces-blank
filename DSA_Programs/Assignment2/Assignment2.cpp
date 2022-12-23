@@ -205,6 +205,12 @@ class ExpressionsUtlilty {
                     }
                 }
             }
+            if (isPrefix == true) {
+                std::cout << "Prefix Evaluation: ";
+            }
+            else {
+                std::cout << "Postfix Evaluation: ";
+            }
             return stackInt->pop();
         }
 
@@ -222,10 +228,10 @@ int main() {
     std::cout << "Infix: ";
     std::cin >> infix;
     e.infixToPostfix(infix, postfix);
-    std::cout << postfix << std::endl;
+    std::cout << "\nPostfix: " << postfix << std::endl;
     std::cout << e.evaluate(postfix, false) << std::endl;
     e.infixToPrefix(infix, prefix);
-    std::cout << prefix << std::endl;
+    std::cout << "\nPrefix: " << prefix << std::endl;
     std::cout << e.evaluate(prefix, true) << std::endl;
     return 0;
 }
