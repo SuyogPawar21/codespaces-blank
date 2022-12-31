@@ -412,6 +412,7 @@ class ExpressionTreeConstructor {
                         operand2 = stack->pop();
                     }
 
+                    // Push the operator node onto the stack
                     stack->push(new TreeNode(token, operand2, operand1));
                 }
             }
