@@ -31,7 +31,7 @@ public:
     // This method is used to insert data into the circular queue.
     void enqueue(T data) {
 
-        // If queue is full then can't insert anymore elements so just return; 
+        // If queue is full then we can't insert anymore elements so just return; 
         if (size == MAXSIZE) {
             std::cout << "Queue is Full" << std::endl;
             return;
