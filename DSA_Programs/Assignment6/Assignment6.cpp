@@ -32,7 +32,21 @@ class InorderThreadedTree {
     private:
         TreeNode* head;
         TreeNode* root;
-
+        
+        void preorderHelper(TreeNode* root) {
+            if (root == nullptr) {
+                return;
+            }
+            else {
+                std::cout << root->data << "\t";
+                if (root->lbit) {
+                    preorderHelper(root->left);
+                }
+                if (root->rbit) {
+                    preorderHelper(root->right);
+                }
+            }
+        }
         TreeNode* insertHelper(TreeNode* root, int data) {
             if (!root) return new TreeNode(data, head, head);
             else {
@@ -68,6 +82,7 @@ class InorderThreadedTree {
 
     public:
         InorderThreadedTree() {
+            root = nullptr;
             head = new TreeNode();
             head->left = root;
             head->right = head;
@@ -104,6 +119,18 @@ class InorderThreadedTree {
                 std::cout << "\n";
             }
         }
+        
+        void preorder() {
+            if (root == nullptr) {
+                std::cout << "Empty Tree" << std::endl;
+                return;
+            }
+            else {
+                std::cout << "Preorder: ";
+                preorderHelper(root);
+                std::cout << "\n";
+            }
+        }
 };
 
 
@@ -115,4 +142,5 @@ int main() {
     tree->insert(20);
     tree->insert(1);
     tree->inorderNR();
+    tree->preorder();
 }
